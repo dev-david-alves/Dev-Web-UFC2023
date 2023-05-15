@@ -1,0 +1,50 @@
+// Imagine que o exemplo abaixo fosse feito sem utilizar o context, 
+// se quiséssemos receber ou enviar algum dado de D até A precisariamos passar primeiro de A->B, B->C, C->D.
+// Mas como mostrado no exemplo abaixo, criamos apenas um contexto que engloba os filhos de A (e os descendentes deles)
+// e repassa os dados de forma mais prática, eficiente e escalável.
+
+import react, { useState, createContext, useContext } from "react";
+
+const dataContext = createContext();
+
+const A = () => {
+  const [dado, setDado] = useState("Algum dado vindo de cima!");
+
+  return (
+    <dataContext.Provider value={dado}>
+      <h1>Questão 04</h1>
+      <B />
+    </dataContext.Provider>
+  );
+};
+
+const B = () => {
+  return (
+    <>
+      <h1>Componente B</h1>
+      <C />
+    </>
+  );
+};
+
+const C = () => {
+  return (
+    <>
+      <h1>Componente C</h1>
+      <D />
+    </>
+  );
+};
+
+const D = () => {
+  const dado = useContext(dataContext);
+
+  return (
+    <>
+      <h1>Componente D</h1>
+      <h2>Dado recebido em D vindo de A: {dado}</h2>
+    </>
+  );
+};
+
+export default A;
